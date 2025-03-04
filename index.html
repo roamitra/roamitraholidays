@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romitra Holidays</title>
+    <style>
+        body {
+            background: url('beach-background.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        input, button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Romitra Holidays Logo" width="150">
+        <h2>Plan Your Trip with Us</h2>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required>
+            <input type="text" id="location" placeholder="Destination" required>
+            <input type="number" id="persons" placeholder="Number of Persons" required>
+            <button type="submit">Submit</button>
+        </form>
+        <p id="message" style="display:none; color:green;">We will get back to you.</p>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let name = document.getElementById('name').value;
+            let phone = document.getElementById('phone').value;
+            let location = document.getElementById('location').value;
+            let persons = document.getElementById('persons').value;
+            
+            let emailBody = `Name: ${name}%0APhone: ${phone}%0ALocation: ${location}%0APersons: ${persons}`;
+            
+            // Send email using Formspree (Free Email Service)
+            fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone, location, persons })
+            });
+
+            // WhatsApp notification (Click-to-Chat link)
+            let whatsappUrl = `https://wa.me/9175121287?text=${emailBody}`;
+            window.open(whatsappUrl, '_blank');
+
+            document.getElementById('message').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
