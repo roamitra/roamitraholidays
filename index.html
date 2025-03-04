@@ -53,7 +53,7 @@
             let emailBody = `Name: ${name}%0APhone: ${phone}%0ALocation: ${location}%0APersons: ${persons}`;
             
             // Send email using Formspree (Free Email Service)
-            fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+            fetch('https://formspree.io/f/meoeybjr', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, phone, location, persons })
