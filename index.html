@@ -140,11 +140,13 @@
             let persons = document.getElementById('persons').value;
             let package = document.getElementById('package').value;
             
-            let message = `New Inquiry:\nName: ${name}\nPhone: ${phone}\nDestination: ${destination}\nPackage: ${package}\nPersons: ${persons}`;
+            let message = `New Inquiry:%0AName: ${name}%0APhone: ${phone}%0ADestination: ${destination}%0APackage: ${package}%0APersons: ${persons}`;
             
-            let whatsappUrl = `https://api.callmebot.com/whatsapp.php?phone=+919175121287&text=${encodeURIComponent(message)}&apikey=your_api_key_here`;
-            fetch(whatsappUrl);
-            
+            // WhatsApp Click-to-Chat link
+            let whatsappUrl = `https://wa.me/919175121287?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+
+            // Show confirmation message
             document.getElementById('message').style.display = 'block';
         });
     </script>
