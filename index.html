@@ -83,6 +83,7 @@
         <h2>Plan Your Trip with Us</h2>
         <form id="contactForm">
             <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
             <input type="tel" id="phone" placeholder="Phone Number" required>
             
             <select id="destinationType" required>
@@ -116,32 +117,31 @@
             <input type="number" id="persons" placeholder="Number of Persons" required>
             <button type="submit">Submit</button>
         </form>
-        <p id="message" style="display:none; color:green;">We will get back to you.</p>
+        <p id="message" style="display:none; color:green;">Thanks for choosing us! Our team will connect with you soon with the best deal.</p>
     </div>
     
     <script>
-        const destinations = {
-            domestic: [
-                "Jammu & Kashmir", "Andaman & Nicobar", "Gujarat", "Rajasthan", "Himachal Pradesh", "Uttarakhand",
-                "Uttarakhand Char Dham Yatra", "Assam", "Arunachal Pradesh", "Sikkim", "Kerala", "Tamil Nadu",
-                "Karnataka", "Maharashtra", "West Bengal", "Goa", "Lakshadweep"
-            ],
-            international: [
-                "Thailand", "Dubai", "Vietnam", "Malaysia", "Singapore", "Hong Kong",
-                "South Korea", "Japan", "Europe", "Kazakhstan", "Uzbekistan",
-                "Georgia", "Armenia", "Azerbaijan", "Maldives", "Mauritius", "Bali"
-            ]
-        };
-
-        document.getElementById("destinationType").addEventListener("change", function() {
-            const type = this.value;
-            const destinationSelect = document.getElementById("destination");
-            destinationSelect.innerHTML = '<option value="" disabled selected>Select a Destination</option>';
-            destinations[type].forEach(place => {
-                let option = document.createElement("option");
-                option.value = place;
-                option.textContent = place;
-                destinationSelect.appendChild(option);
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let phone = document.getElementById('phone').value;
+            let destination = document.getElementById('destination').value;
+            let package = document.getElementById('package').value;
+            let persons = document.getElementById('persons').value;
+            
+            let message = `Name: ${name}%0AEmail: ${email}%0APhone: ${phone}%0ADestination: ${destination}%0APackage: ${package}%0APersons: ${persons}`;
+            
+            window.open(`https://wa.me/919175121287?text=${message}`, '_blank');
+            
+            fetch('https://formspree.io/f/your-email-endpoint', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: "roamitraholidays@gmail.com",
+                    message: message.replace(/%0A/g, '\n')
+                })
             });
         });
     </script>
