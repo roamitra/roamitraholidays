@@ -106,11 +106,6 @@
                 <option value="8 Nights 9 Days">8 Nights 9 Days</option>
                 <option value="9 Nights 10 Days">9 Nights 10 Days</option>
                 <option value="10 Nights 11 Days">10 Nights 11 Days</option>
-                <option value="11 Nights 12 Days">11 Nights 12 Days</option>
-                <option value="12 Nights 13 Days">12 Nights 13 Days</option>
-                <option value="13 Nights 14 Days">13 Nights 14 Days</option>
-                <option value="14 Nights 15 Days">14 Nights 15 Days</option>
-                <option value="15 Nights 16 Days">15 Nights 16 Days</option>
                 <option value="Special Honeymoon Package">Special Honeymoon Package</option>
             </select>
             
@@ -121,28 +116,37 @@
     </div>
     
     <script>
+        const destinations = {
+            domestic: ["Jammu & Kashmir", "Andaman & Nicobar", "Gujarat", "Rajasthan", "Himachal Pradesh", "Uttarakhand", "Assam", "Arunachal Pradesh", "Sikkim", "Kerala", "Tamil Nadu", "Goa"],
+            international: ["Thailand", "Dubai", "Vietnam", "Malaysia", "Singapore", "Hong Kong", "Europe", "Kazakhstan", "Georgia", "Maldives"]
+        };
+
+        document.getElementById('destinationType').addEventListener('change', function() {
+            let type = this.value;
+            let destinationDropdown = document.getElementById('destination');
+            destinationDropdown.innerHTML = '<option value="" disabled selected>Select a Destination</option>';
+            destinations[type].forEach(place => {
+                let option = document.createElement('option');
+                option.value = place;
+                option.textContent = place;
+                destinationDropdown.appendChild(option);
+            });
+        });
+
         document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            
             let name = document.getElementById('name').value;
-            let email = document.getElementById('email').value;
             let phone = document.getElementById('phone').value;
             let destination = document.getElementById('destination').value;
-            let package = document.getElementById('package').value;
             let persons = document.getElementById('persons').value;
+
+            let whatsappMessage = `Hello, I am ${name}. I am interested in a trip to ${destination} for ${persons} persons.`;
+            window.open(`https://wa.me/9175121287?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
             
-            let message = `Name: ${name}%0AEmail: ${email}%0APhone: ${phone}%0ADestination: ${destination}%0APackage: ${package}%0APersons: ${persons}`;
+            let emailBody = `Name: ${name}%0APhone: ${phone}%0ADestination: ${destination}%0ANumber of Persons: ${persons}`;
+            window.location.href = `mailto:roamitraholidays@gmail.com?subject=New Travel Inquiry&body=${emailBody}`;
             
-            window.open(`https://wa.me/919175121287?text=${message}`, '_blank');
-            
-            fetch('https://formspree.io/f/your-email-endpoint', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: "roamitraholidays@gmail.com",
-                    message: message.replace(/%0A/g, '\n')
-                })
-            });
+            document.getElementById('message').style.display = 'block';
         });
     </script>
 </body>
