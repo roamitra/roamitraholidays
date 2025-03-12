@@ -34,7 +34,6 @@
         <h2>Plan Your Trip with Us</h2>
         <form id="contactForm">
             <input type="text" id="name" placeholder="Your Name" required>
-            <input type="email" id="email" placeholder="Your Email" required>
             <input type="tel" id="phone" placeholder="Phone Number" required>
 
             <select id="destinationType" required>
@@ -83,25 +82,21 @@
             event.preventDefault();
 
             let name = document.getElementById('name').value;
-            let email = document.getElementById('email').value;
             let phone = document.getElementById('phone').value;
             let destination = document.getElementById('destination').value;
             let persons = document.getElementById('persons').value;
             let package = document.getElementById('package').value;
 
-            let emailBody = `New Inquiry:%0AName: ${name}%0AEmail: ${email}%0APhone: ${phone}%0ADestination: ${destination}%0APackage: ${package}%0APersons: ${persons}`;
+            let emailBody = `New Inquiry:%0AName: ${name}%0APhone: ${phone}%0ADestination: ${destination}%0APackage: ${package}%0APersons: ${persons}`;
 
-            // Send email using Formspree (Free Email Service)
             fetch('https://formspree.io/f/meoeybjr', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, phone, location, persons })
+                body: JSON.stringify({ name, phone, destination, package, persons })
             });
-
-            // WhatsApp notification (Click-to-Chat link)
-            let whatsappUrl = `https://wa.me/9175121287?text=${emailBody}`;
+            
+            let whatsappUrl = `https://wa.me/919175121287?text=${emailBody}`;
             window.open(whatsappUrl, '_blank');
-
 
             document.getElementById('message').style.display = 'block';
             document.getElementById('contactForm').reset();
