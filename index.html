@@ -83,7 +83,6 @@
         <h2>Plan Your Trip with Us</h2>
         <form id="contactForm">
             <input type="text" id="name" placeholder="Your Name" required>
-            <input type="email" id="email" placeholder="Your Email" required>
             <input type="tel" id="phone" placeholder="Phone Number" required>
             
             <select id="destinationType" required>
@@ -112,13 +111,13 @@
             <input type="number" id="persons" placeholder="Number of Persons" required>
             <button type="submit">Submit</button>
         </form>
-        <p id="message" style="display:none; color:green;">Thanks for choosing us! Our team will connect with you soon with the best deal.</p>
+        <p id="message" style="display:none; color:green;">Thank you for showing interest. Our team will connect with you shortly.</p>
     </div>
     
     <script>
         const destinations = {
-            domestic: ["Jammu & Kashmir", "Andaman & Nicobar", "Gujarat", "Rajasthan", "Himachal Pradesh", "Uttarakhand", "Assam", "Arunachal Pradesh", "Sikkim", "Kerala", "Tamil Nadu", "Goa"],
-            international: ["Thailand", "Dubai", "Vietnam", "Malaysia", "Singapore", "Hong Kong", "Europe", "Kazakhstan", "Georgia", "Maldives"]
+            domestic: ["Jammu & Kashmir", "Andaman & Nicobar", "Gujarat", "Rajasthan", "Himachal Pradesh", "Uttarakhand", "Assam", "Arunachal Pradesh", "Sikkim", "Kerala", "Tamil Nadu", "Goa", "Maharashtra", "West Bengal", "Lakshadweep"],
+            international: ["Thailand", "Dubai", "Vietnam", "Malaysia", "Singapore", "Hong Kong", "Europe", "Kazakhstan", "Georgia", "Maldives", "Mauritius", "Bali"]
         };
 
         document.getElementById('destinationType').addEventListener('change', function() {
@@ -139,12 +138,12 @@
             let phone = document.getElementById('phone').value;
             let destination = document.getElementById('destination').value;
             let persons = document.getElementById('persons').value;
-
-            let whatsappMessage = `Hello, I am ${name}. I am interested in a trip to ${destination} for ${persons} persons.`;
-            window.open(`https://wa.me/9175121287?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+            let package = document.getElementById('package').value;
             
-            let emailBody = `Name: ${name}%0APhone: ${phone}%0ADestination: ${destination}%0ANumber of Persons: ${persons}`;
-            window.location.href = `mailto:roamitraholidays@gmail.com?subject=New Travel Inquiry&body=${emailBody}`;
+            let message = `New Inquiry:\nName: ${name}\nPhone: ${phone}\nDestination: ${destination}\nPackage: ${package}\nPersons: ${persons}`;
+            
+            let whatsappUrl = `https://api.callmebot.com/whatsapp.php?phone=+919175121287&text=${encodeURIComponent(message)}&apikey=your_api_key_here`;
+            fetch(whatsappUrl);
             
             document.getElementById('message').style.display = 'block';
         });
