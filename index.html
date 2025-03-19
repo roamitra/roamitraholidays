@@ -112,11 +112,12 @@
             
             const message = `New Booking Inquiry:\nName: ${name}\nMobile: ${mobile}\nEmail: ${email}\nDestination: ${destination}\nPackage: ${packageType}`;
             
-            fetch('https://api.emailservice.com/send', {
+            fetch('https://formspree.io/f/meoeybjr', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ to: 'roamitraholidays@gmail.com', subject: 'New Booking Inquiry', text: message })
+                body: JSON.stringify({ name, mobile,email, destination, package })
             });
+
             
             fetch(`https://api.whatsappservice.com/send?phone=+919175121287&text=${encodeURIComponent(message)}`);
             
