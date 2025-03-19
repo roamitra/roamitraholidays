@@ -48,6 +48,11 @@
             border: none;
             cursor: pointer;
         }
+        .highlights {
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +64,7 @@
     </div>
     
     <div class="catchy-text">Explore the World with Roamitra Holidays. Beyond Trips we Craft Memories!</div>
+    <div class="highlights">Best Deals | Hassle-Free Booking | 24/7 Support</div>
     
     <div class="container">
         <h2>Book Your Trip</h2>
@@ -93,7 +99,7 @@
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="5">5</option>
+				<option value="5">5</option>
                 <option value="6">6</option>
                 <option value="7">7</option>
                 <option value="8">8</option>
@@ -138,8 +144,6 @@
             const persons = document.getElementById("persons").value;
             
             const message = `New Booking Inquiry:\nName: ${name}\nMobile: ${mobile}\nEmail: ${email}\nDestination: ${destination}\nPackage: ${packageType}\nPersons: ${persons}`;
-            
-            
             
             fetch('https://formspree.io/f/meoeybjr', {
                 method: 'POST',
