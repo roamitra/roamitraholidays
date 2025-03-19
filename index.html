@@ -3,103 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Romitra Holidays</title>
+    <title>Romitra Holidays - Your Travel Partner</title>
     <style>
         body {
-            background: url('beach-background.jpg') no-repeat center center/cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             font-family: Arial, sans-serif;
+            background: url('beach-background.jpg') no-repeat center center/cover;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo img {
+            width: 150px;
+        }
+        .contact {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .catchy-text {
+            font-size: 24px;
+            margin: 20px 0;
+            font-weight: bold;
         }
         .container {
-            background: rgba(255, 255, 255, 0.8);
+            max-width: 500px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.6);
             padding: 20px;
             border-radius: 10px;
-            text-align: center;
-            width: 350px;
         }
         input, select, button {
-            display: block;
-            margin: 10px auto;
+            width: 100%;
             padding: 10px;
-            width: 80%;
+            margin: 10px 0;
+        }
+        button {
+            background: #ff9800;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <div class="logo">
+            <img src="logo.png" alt="Romitra Holidays Logo">
+        </div>
+        <div class="contact">Call Us: +91 9175121287</div>
+    </div>
+    
+    <div class="catchy-text">Explore the World with Romitra Holidays!</div>
+    
     <div class="container">
-        <img src="logo.png" alt="Romitra Holidays Logo" width="150">
-        <h2>Plan Your Trip with Us</h2>
-        <form id="contactForm">
+        <h2>Book Your Trip</h2>
+        <form id="bookingForm">
             <input type="text" id="name" placeholder="Your Name" required>
-            <input type="tel" id="phone" placeholder="Phone Number" required>
-
+            <input type="tel" id="mobile" placeholder="Mobile Number" required>
+            <input type="email" id="email" placeholder="Email" required>
             <select id="destinationType" required>
-                <option value="" disabled selected>Select Destination Type</option>
+                <option value="">Select Destination Type</option>
                 <option value="domestic">Domestic</option>
                 <option value="international">International</option>
             </select>
-
             <select id="destination" required>
-                <option value="" disabled selected>Select a Destination</option>
+                <option value="">Select Destination</option>
             </select>
-
             <select id="package" required>
-                <option value="" disabled selected>Select a Package</option>
-                <option value="3 Nights 4 Days">3 Nights 4 Days</option>
-                <option value="4 Nights 5 Days">4 Nights 5 Days</option>
-                <option value="5 Nights 6 Days">5 Nights 6 Days</option>
-                <option value="Special Honeymoon Package">Special Honeymoon Package</option>
+                <option value="">Select Package</option>
+                <option value="3N4D">3 Nights 4 Days</option>
+                <option value="4N5D">4 Nights 5 Days</option>
             </select>
-
-            <input type="number" id="persons" placeholder="Number of Persons" required>
             <button type="submit">Submit</button>
         </form>
-        <p id="message" style="display:none; color:green;">Thank you for showing your interest with us. Our team will connect with you shortly.</p>
+        <p id="responseMessage" style="display:none; color: lightgreen;"></p>
     </div>
 
     <script>
-        const destinations = {
-            domestic: ["Jammu & Kashmir", "Andaman & Nicobar", "Gujarat", "Rajasthan", "Himachal Pradesh", "Uttarakhand", "Assam", "Arunachal Pradesh", "Sikkim", "Kerala", "Tamil Nadu", "Goa", "Maharashtra", "West Bengal", "Lakshadweep"],
-            international: ["Thailand", "Dubai", "Vietnam", "Malaysia", "Singapore", "Hong Kong", "Europe", "Kazakhstan", "Georgia", "Maldives", "Mauritius", "Bali"]
-        };
-
-        document.getElementById('destinationType').addEventListener('change', function() {
-            let type = this.value;
-            let destinationDropdown = document.getElementById('destination');
-            destinationDropdown.innerHTML = '<option value="" disabled selected>Select a Destination</option>';
-            destinations[type].forEach(place => {
-                let option = document.createElement('option');
-                option.value = place;
-                option.textContent = place;
-                destinationDropdown.appendChild(option);
+        const domesticDestinations = ["Andaman", "Goa", "Kerala", "Rajasthan", "Himachal Pradesh"];
+        const internationalDestinations = ["Thailand", "Japan", "Singapore"];
+        
+        document.getElementById("destinationType").addEventListener("change", function() {
+            const destinationSelect = document.getElementById("destination");
+            destinationSelect.innerHTML = '<option value="">Select Destination</option>';
+            
+            const destinations = this.value === "domestic" ? domesticDestinations : this.value === "international" ? internationalDestinations : [];
+            
+            destinations.forEach(dest => {
+                const option = document.createElement("option");
+                option.value = dest;
+                option.textContent = dest;
+                destinationSelect.appendChild(option);
             });
         });
-
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
+        
+        document.getElementById("bookingForm").addEventListener("submit", function(event) {
             event.preventDefault();
-
-            let name = document.getElementById('name').value;
-            let phone = document.getElementById('phone').value;
-            let destination = document.getElementById('destination').value;
-            let persons = document.getElementById('persons').value;
-            let package = document.getElementById('package').value;
-
-            let emailBody = `New Inquiry:%0AName: ${name}%0APhone: ${phone}%0ADestination: ${destination}%0APackage: ${package}%0APersons: ${persons}`;
-
-            fetch('https://formspree.io/f/meoeybjr', {
+            const name = document.getElementById("name").value;
+            const mobile = document.getElementById("mobile").value;
+            const email = document.getElementById("email").value;
+            const destination = document.getElementById("destination").value;
+            const packageType = document.getElementById("package").value;
+            
+            const message = `New Booking Inquiry:\nName: ${name}\nMobile: ${mobile}\nEmail: ${email}\nDestination: ${destination}\nPackage: ${packageType}`;
+            
+            fetch('https://api.emailservice.com/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, phone, destination, package, persons })
+                body: JSON.stringify({ to: 'roamitraholidays@gmail.com', subject: 'New Booking Inquiry', text: message })
             });
             
-            let whatsappUrl = `https://wa.me/919175121287?text=${emailBody}`;
-            window.open(whatsappUrl, '_blank');
-
-            document.getElementById('message').style.display = 'block';
-            document.getElementById('contactForm').reset();
+            fetch(`https://api.whatsappservice.com/send?phone=919175121287&text=${encodeURIComponent(message)}`);
+            
+            document.getElementById("responseMessage").textContent = "Thanks for choosing us. Our team will connect with you shortly.";
+            document.getElementById("responseMessage").style.display = "block";
         });
     </script>
 </body>
