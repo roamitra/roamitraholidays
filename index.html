@@ -58,7 +58,7 @@
         <div class="contact">Call Us: +91 9175121287</div>
     </div>
     
-    <div class="catchy-text">Explore the World with Roamitra Holidays!</div>
+    <div class="catchy-text">Explore the World with Roamitra Holidays. Beyond Trips we Craft Memories!</div>
     
     <div class="container">
         <h2>Book Your Trip</h2>
@@ -78,6 +78,32 @@
                 <option value="">Select Package</option>
                 <option value="3N4D">3 Nights 4 Days</option>
                 <option value="4N5D">4 Nights 5 Days</option>
+                <option value="5N6D">5 Nights 6 Days</option>
+                <option value="6N7D">6 Nights 7 Days</option>
+                <option value="7N8D">7 Nights 8 Days</option>
+                <option value="8N9D">8 Nights 9 Days</option>
+                <option value="9N10D">9 Nights 10 Days</option>
+                <option value="10N11D">10 Nights 11 Days</option>
+                <option value="11N12D">11 Nights 12 Days</option>
+                <option value="12N13D">12 Nights 13 Days</option>
+            </select>
+            <select id="persons" required>
+                <option value="">Number of Persons</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
             </select>
             <button type="submit">Submit</button>
         </form>
@@ -85,8 +111,8 @@
     </div>
 
     <script>
-        const domesticDestinations = ["Andaman", "Goa", "Kerala", "Rajasthan", "Himachal Pradesh"];
-        const internationalDestinations = ["Thailand", "Japan", "Singapore"];
+        const domesticDestinations = ["Andaman", "Goa", "Kerala", "Rajasthan", "Himachal Pradesh", "Arunachal Pradesh", "Gujrat", "Uttrakhand", "Uttar Pradesh","Karnataka", "Sikkim", "Meghalay", "Lakshwadeep", "Andhra Pradesh", "Maharashtra", "Darjeling", "Assam"];
+        const internationalDestinations = ["Thailand", "Japan", "Singapore", "Azerbaijan", "Kazakistan", "Uzbekistan", "Georgia", "Armenia", "Dubai", "South Korea", "Malaysia", "Sri Lanka", "Maldies", "Vietnam", "Honk Kong", "Europe"];
         
         document.getElementById("destinationType").addEventListener("change", function() {
             const destinationSelect = document.getElementById("destination");
@@ -109,17 +135,30 @@
             const email = document.getElementById("email").value;
             const destination = document.getElementById("destination").value;
             const packageType = document.getElementById("package").value;
+            const persons = document.getElementById("persons").value;
             
-            const message = `New Booking Inquiry:\nName: ${name}\nMobile: ${mobile}\nEmail: ${email}\nDestination: ${destination}\nPackage: ${packageType}`;
+            const message = `New Booking Inquiry:\nName: ${name}\nMobile: ${mobile}\nEmail: ${email}\nDestination: ${destination}\nPackage: ${packageType}\nPersons: ${persons}`;
+            
+            fetch("https://api.twilio.com/2010-04-01/Accounts/AC06289aa3600be180d06921bcf1de0c50/Messages.json", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Basic " + btoa("AC06289aa3600be180d06921bcf1de0c50:e17b5f8c7d435cf15584e40d5c6a2609"),
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    "From": "whatsapp:+14155238886",
+                    "To": "whatsapp:+919175121287",
+                    "Body": message
+                })
+            }).then(response => response.json())
+            .then(data => console.log("WhatsApp Message Sent:", data))
+            .catch(error => console.error("WhatsApp Error:", error));
             
             fetch('https://formspree.io/f/meoeybjr', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, mobile,email, destination, package })
+                body: JSON.stringify({ name, mobile, email, destination, package, persons })
             });
-
-            
-            fetch(`https://api.whatsappservice.com/send?phone=+919175121287&text=${encodeURIComponent(message)}`);
             
             document.getElementById("responseMessage").textContent = "Thanks for choosing us. Our team will connect with you shortly.";
             document.getElementById("responseMessage").style.display = "block";
