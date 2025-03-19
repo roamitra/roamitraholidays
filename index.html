@@ -118,7 +118,7 @@
                 body: JSON.stringify({ to: 'roamitraholidays@gmail.com', subject: 'New Booking Inquiry', text: message })
             });
             
-            fetch(`https://api.whatsappservice.com/send?phone=919175121287&text=${encodeURIComponent(message)}`);
+            fetch(`https://api.whatsappservice.com/send?phone=+919175121287&text=${encodeURIComponent(message)}`);
             
             document.getElementById("responseMessage").textContent = "Thanks for choosing us. Our team will connect with you shortly.";
             document.getElementById("responseMessage").style.display = "block";
